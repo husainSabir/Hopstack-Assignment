@@ -22,7 +22,7 @@ app.use(cors());
 
 //!/* ---------------------------------- Route --------------------------------- */
 function update(result,itemName){
-	console.log(result.data.hits);
+	console.log(typeof(result.data),"--------------------------------hits");
 	let updatedResult = {
 		label: itemName,
 		subItem: result.data.hits.map((i) => {
@@ -37,20 +37,35 @@ function update(result,itemName){
 	return updatedResult;
 }
 app.get("/:itemName", async (req, res) => {
+	console.log("i am here");
 	try {
-		let result = await Item.find({ "label": req.params.itemName });
-		let updatedResult;
+		let result;
+		result = await Item.find({ "label": req.params.itemName });
+		console.log(result);
+		let updatedResult
 		if (result.length == 0) {
-			result = await axios.get(`https://api.nutritionix.com/v1_1/search/${req.params.itemName}?results=0:5&fields=item_name,brand_name,item_id,nf_calories&appId=${process.env.APPID}&appKey=${process.env.APPKEY}`);
+			console.log("Calling API")
+			
+			do{
+				result = await axios.get(`https://api.nutritionix.com/v1_1/search/${req.params.itemName}?results=0:5&fields=item_name,brand_name,item_id,nf_calories&appId=${process.env.APPID}&appKey=${process.env.APPKEY}`);
+				console.log("here",typeof(result.data.hits));
+			}while(typeof(result.data.hits)!== "object" );
+
+			console.log(result,"----------------------------------------fetched");
 			updatedResult = await update(result,req.params.itemName);
 			const newResult = await new Item(updatedResult);
+			console.log()
 			newResult.save();
 		}
 		else
+		  {
+			console.log("Found in Database")
 			updatedResult = result;
+			}
 		res.status(200).json(updatedResult);
 	}
 	catch (error) {
+		console.log("chudd");
 		res.status(400).json(error.message);
 	}
 })
