@@ -1,5 +1,5 @@
 import React from "react";
-import { FaSearch, FaMoon, FaSun } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import useDarkMode from "../hooks/useDarkMode";
 
 const Header = () => {
