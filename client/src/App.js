@@ -7,8 +7,10 @@ const App = () => {
   const [results, setResults] = useState([]);
 
   async function callback(params) {
-    const data = await axios.post("/search", { query: params });
-    setResults(data);
+    if(params){
+      const {data} = await axios.get(`http://localhost:8800/${params}`);
+      setResults(data[0]);
+    }
   }
 
   return (
