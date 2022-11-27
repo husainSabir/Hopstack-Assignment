@@ -4,9 +4,7 @@ const dotenv = require('dotenv').config();
 const express = require("express");
 const app = express();
 const mongoose = require('mongoose');
-const morgan = require("morgan");
 const cors = require("cors");
-const router = require('express').Router();
 const axios = require('axios');
 const Item = require("./Model/Item");
 
@@ -23,7 +21,7 @@ app.use(cors());
 //!/* ---------------------------------- Route --------------------------------- */
 function update(result,itemName){
 	console.log(typeof(result.data),"--------------------------------hits");
-	let updatedResult = {
+	let updatedResult = [{
 		label: itemName,
 		subItem: result.data.hits.map((i) => {
 			return (
@@ -33,7 +31,7 @@ function update(result,itemName){
 				}
 			)
 		})
-	}
+	}]
 	return updatedResult;
 }
 app.get("/:itemName", async (req, res) => {

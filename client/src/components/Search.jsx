@@ -19,11 +19,12 @@ const Search = ({ callback }) => {
   }
 
   return (
-    <div className="w-6/12 flex justify-center items-center dark:bg-slate-400 rounded-md bg-white">
+    <div className="w-6/12 flex justify-center items-center dark:bg-stone-700 rounded-md bg-white">
       <FaSearch size="16" className="mx-3 my-2" />
       <input
-        className="w-full pr-4 py-2 outline-none dark:bg-slate-400 rounded-md"
+        className="w-full pr-4 py-2 outline-none placeholder-current dark:bg-stone-700 rounded-md"
         onChange={handleChange}
+        placeholder="Enter Food Item"
         value={searchQuery}
       />
     </div>
